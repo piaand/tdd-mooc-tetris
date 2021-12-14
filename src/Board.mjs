@@ -1,3 +1,4 @@
+import {areaIsTaken} from './services/boardServices.mjs'
 
 const BOARD_FILLER = '.'
 const START_ROW = 0
@@ -44,6 +45,11 @@ export class Board {
     return board;
   }
 
+  hasFalling() {
+    let fallingBlock = this.blocks.find(block => block.falling)
+    return Boolean(fallingBlock)
+  }
+
   addBlockToBoard(block) {
     let oldBlocs = this.blocks
     let newBlocs = oldBlocs.concat(block)
@@ -55,24 +61,28 @@ export class Board {
   }
 
   drop(block) {
-    let x = this.getBoardMiddle(this.width)
-    let y = START_ROW
-    block.setCoordinates(x, y)
-    block.toggleFall()
-    this.addBlockToBoard(block)
+    let fallingBlocks = this.blocks.filter(block => block.falling)
+    if(fallingBlocks.length > 0){
+      throw Error("already falling")
+    } else {
+      let x = this.getBoardMiddle(this.width)
+      let y = START_ROW
+      block.setCoordinates({x, y})
+      block.toggleFall()
+      this.addBlockToBoard(block)
+    }
   }
 
   tick(){
-    let fallingBlocks = this.blocks.filter(block => block.falling)
-    if(fallingBlocks?.length === 0) {
-      throw Error("no blocks placed on the board")
-    }
-    else if(fallingBlocks.length > 1){
-      throw Error("already falling")
+    const block = this.blocks.find(block => block.falling)
+    const coordinates = block.getCoordinates()
+    const newCoordinates = {x: coordinates.x, y: coordinates.y + 1}
+    
+    // the board has ended or there is another block in the way
+    if(newCoordinates.y === this.height || areaIsTaken(newCoordinates, this.blocks)) {
+      block.toggleFall()
     } else {
-      let block = fallingBlocks[0]
-      let coordinates = block.getCoordinates()
-      block.setCoordinates(coordinates.x, ++coordinates.y)
+      block.setCoordinates(newCoordinates)
     }
   }
 }

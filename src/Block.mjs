@@ -1,20 +1,26 @@
 export class Block {
   color;
 
+  /*
+  b... (starting point (b) from left to right, up to down: x = 0, y = 0)
+  ....
+  ...p (ending point (p) from left to right, up to down: x = 3, y = 2)
+  */
   constructor(color) {
     this.color = color;
-    this.x = 0
-    this.y = 0
+    this.coordinates = {
+      x: 0,
+      y: 0
+    }
     this.falling = false
   }
 
   getCoordinates(){
-    return {x: this.x, y: this.y}
+    return this.coordinates
   }
 
-  setCoordinates(x, y){
-    this.x = x
-    this.y = y
+  setCoordinates(coordinates){
+    this.coordinates = coordinates
   }
 
   toggleFall(){

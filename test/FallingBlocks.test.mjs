@@ -1,6 +1,7 @@
 import { expect } from "chai";
 import { Board } from "../src/Board.mjs";
 import { Block } from "../src/Block.mjs";
+import { areaIsTaken } from "../src/services/boardServices.mjs";
 
 describe("Falling blocks", () => {
   let board;
@@ -39,7 +40,7 @@ describe("Falling blocks", () => {
       );
     });
 
-    xit("at most one block may be falling at a time", () => {
+    it("at most one block may be falling at a time", () => {
       const before = board.toString();
       expect(() => board.drop(new Block("Y"))).to.throw("already falling");
       const after = board.toString();
@@ -47,7 +48,7 @@ describe("Falling blocks", () => {
     });
   });
 
-  /*
+  
   describe("When a block reaches the bottom", () => {
     beforeEach(() => {
       board.drop(new Block("X"));
@@ -67,7 +68,7 @@ describe("Falling blocks", () => {
       ).to.be.true;
     });
 
-    xit("it stops when it hits the bottom", () => {
+    it("it stops when it hits the bottom", () => {
       board.tick();
 
       expect(board.toString()).to.equalShape(
@@ -78,9 +79,8 @@ describe("Falling blocks", () => {
       expect(board.hasFalling(), "the block should stop moving").to.be.false;
     });
   });
-  */
+  
 
-  /*
   describe("When a block lands on another block", () => {
     beforeEach(() => {
       board.drop(new Block("X"));
@@ -103,9 +103,8 @@ describe("Falling blocks", () => {
       ).to.be.true;
     });
 
-    xit("it stops when it hits the other block", () => {
+    it("it stops when it hits the other block", () => {
       board.tick();
-
       expect(board.toString()).to.equalShape(
         `...
          .Y.
@@ -114,5 +113,4 @@ describe("Falling blocks", () => {
       expect(board.hasFalling(), "the block should stop moving").to.be.false;
     });
   });
-  */
 });
