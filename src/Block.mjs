@@ -1,5 +1,7 @@
 export class Block {
   color;
+  coordinates;
+  falling;
 
   /*
   b... (starting point (b) from left to right, up to down: x = 0, y = 0)
@@ -10,20 +12,20 @@ export class Block {
     this.color = color;
     this.coordinates = {
       x: 0,
-      y: 0
-    }
-    this.falling = false
+      y: 0,
+    };
+    this.falling = false;
   }
 
-  getCoordinates(){
-    return this.coordinates
+  getCoordinates() {
+    return this.coordinates;
   }
 
-  setCoordinates(coordinates){
-    this.coordinates = coordinates
+  setCoordinates(coordinates) {
+    this.coordinates = coordinates;
   }
 
-  toggleFall(){
-    this.falling = !(this.falling)
+  toggleFall() {
+    this.falling = !this.falling;
   }
 }
